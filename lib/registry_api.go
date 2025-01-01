@@ -1,9 +1,11 @@
 package lib
 
 import (
+	"fmt"
 	"net/http"
 	"net/url"
 	"strconv"
+	"strings"
 
 	"github.com/mayflower/docker-ls/lib/connector"
 )
@@ -15,9 +17,25 @@ type registryApi struct {
 
 func (r *registryApi) endpointUrl(path string) *url.URL {
 	url := r.cfg.registryUrl
+	// Format URL if registry url extra suffix.
+	// For example staging_pgai-platform in https://docker.enterprisedb.com/staging_pgai-platform
+	var registryName string
+	if strings.Trim(url.Path, " ") != "" {
+		registryName = strings.Trim(url.Path, "/")
+	}
+	fmt.Println("url", url.Path)
+	processedPath := path
+	if registryName != "" {
+		splitPath := strings.Split(path, "/")
+		if len(splitPath) > 1 {
+			processedPath = fmt.Sprintf("/%s/%s", splitPath[0], registryName)
+			for i := 1; i < len(splitPath); i++ {
+				processedPath = fmt.Sprintf("%s/%s", processedPath, splitPath[i])
+			}
+		}
+	}
 
-	url.Path = path
-
+	url.Path = processedPath
 	return &url
 }
 

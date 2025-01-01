@@ -4,3 +4,4 @@ lib/dynamic_version.go
 release
 .idea/
 vendor/
+docker-ls
