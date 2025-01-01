@@ -130,6 +130,11 @@ func (r *registryApi) getHeadersForManifestVersion(version uint) (headers map[st
 			"accept": "application/vnd.docker.distribution.manifest.v2+json",
 		}
 
+	case 3:
+		headers = map[string]string{
+			"Accept": "application/vnd.oci.image.index.v1+json",
+		}
+
 	default:
 		err = errors.New("invalid manifest version")
 	}

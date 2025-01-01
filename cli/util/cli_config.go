@@ -112,6 +112,6 @@ func CliConfigFromViper() (cfg *CliConfig, err error) {
 func NewCliConfig() *CliConfig {
 	return &CliConfig{
 		Progress:        true,
-		ManifestVersion: 2,
+		ManifestVersion: 3,
 	}
 }
