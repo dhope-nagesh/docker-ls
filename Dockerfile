@@ -1,5 +1,5 @@
 # Build Container
-FROM golang:latest AS build
+FROM golang:1.22 AS build
 ENV CGO_ENABLED=0
 ENV GOOS=linux
 ENV GOARCH=amd64

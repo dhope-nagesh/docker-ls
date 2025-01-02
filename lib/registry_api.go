@@ -23,7 +23,6 @@ func (r *registryApi) endpointUrl(path string) *url.URL {
 	if strings.Trim(url.Path, " ") != "" {
 		registryName = strings.Trim(url.Path, "/")
 	}
-	fmt.Println("url", url.Path)
 	processedPath := path
 	if registryName != "" {
 		splitPath := strings.Split(path, "/")
