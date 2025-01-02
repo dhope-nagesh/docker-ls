@@ -35,7 +35,14 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error getting tags: %v", err)
 	}
-	for _, tag := range repos.Tags {
+
+	if err := inspectOCIManifest(registry, repository, repos.Tags); err != nil {
+		log.Fatalf("Error inspecting OCI manifest: %v", err)
+	}
+}
+
+func inspectOCIManifest(registry, repository string, tags []string) error {
+	for _, tag := range tags {
 		log.Println(fmt.Sprintf("inspecting %s:%s...", repository, tag))
 		deserializedImageIndex, err := getTagOCIManifest(registry, repository, tag)
 		if err != nil {
@@ -54,6 +61,7 @@ func main() {
 			fmt.Println(pgExtension.Name, pgExtension.Version, pgExtension.Description)
 		}
 	}
+	return nil
 }
 
 func getTagOCIManifest(registry, repository, tag string) (*ocischema.DeserializedImageIndex, error) {
